@@ -1,8 +1,14 @@
 import re
 import telebot
+import wikipedia
 
 # Token from @BotFather
 API_TOKEN = 'YOUR_TOKEN'
+
+
+class WikiBot:
+    def __init__(self):
+        self.wiki = wikipedia  # wikipedia object
 
 
 def wikiparse(page):
@@ -24,14 +30,26 @@ def wikiparse(page):
     return wikitext2
 
 
+def getwiki(wiki, text):
+    direct_search = wiki.page(text, auto_suggest=False)
+    msg = wikiparse(direct_search)
+    return msg
+
+
 if __name__ == "__main__":
     # Creating the bot
     bot = telebot.TeleBot(token=API_TOKEN)
+    # For multiuser support, will contain chat ids, as well as current wiki language
+    current_chats = {}
 
     # Handling /start command
     @bot.message_handler(commands=['start'])
     def welcome(message):
         chat_id = message.chat.id  # Getting id of the chat
+
+        wb = WikiBot()
+        current_chats[chat_id] = wb
+        current_chats[chat_id].wiki.set_lang("en")  # set default language
 
         # Welcome message
         bot.send_message(chat_id,
@@ -44,13 +62,15 @@ if __name__ == "__main__":
                          "\n/start - initialize the bot".format(message.from_user, bot.get_me()),
                          parse_mode='html')
 
-
     # Handling incoming messages
     @bot.message_handler(content_types=['text'])
     def get_text_messages(message):
         chat_id = message.chat.id  # Getting id of the chat
-        msg = "Wiki response"
-        bot.send_message(chat_id, msg)
+        if chat_id not in current_chats.keys():
+            bot.send_message(chat_id, "Please use the /start command to begin the chat")
+        else:
+            msg = getwiki(current_chats[chat_id].wiki, message.text)
+            bot.send_message(chat_id, msg)
 
 
     # Start
