@@ -59,7 +59,21 @@ if __name__ == "__main__":
                          "Consider me you personal wikipedia😉.\n"
                          "\nType any word and let's start learning!"""
                          "\n\n<b>Available commands:</b>"
-                         "\n/start - initialize the bot".format(message.from_user, bot.get_me()),
+                         "\n/start - initialize the bot"
+                         "\n/help - to see available commands"
+                         "\n/eng - search articles in English"
+                         "\n/ru - search articles in Russian".format(message.from_user, bot.get_me()),
+                         parse_mode='html')
+
+    # Handling /help command
+    @bot.message_handler(commands=['help'])
+    def command_help(message):
+        chat_id = message.chat.id  # Getting id of the chat
+        bot.send_message(chat_id, "\n\n<b>Available commands:</b>"
+                                  "\n/start - initialize the bot"
+                                  "\n/help - to see available commands"
+                                  "\n/eng - search articles in English (default)"
+                                  "\n/rus - search articles in Russian",
                          parse_mode='html')
 
     # Handling /ru command
