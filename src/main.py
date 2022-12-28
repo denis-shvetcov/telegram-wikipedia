@@ -71,7 +71,7 @@ if __name__ == "__main__":
                          "\n/start - initialize the bot"
                          "\n/help - to see available commands"
                          "\n/eng - search articles in English"
-                         "\n/ru - search articles in Russian".format(message.from_user, bot.get_me()),
+                         "\n/rus - search articles in Russian".format(message.from_user, bot.get_me()),
                          parse_mode='html')
 
     # Handling /help command
