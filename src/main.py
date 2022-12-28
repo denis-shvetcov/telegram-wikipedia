@@ -3,7 +3,7 @@ import telebot
 import wikipedia
 
 # Token from @BotFather
-API_TOKEN = '5891616232:AAEMHp4_9cz_dRcUPU45TkLwdXbXQsXfy7Y'
+API_TOKEN = 'YOUR_TOKEN'
 
 
 class WikiBot:
