@@ -3,7 +3,7 @@ import telebot
 import wikipedia
 
 # Token from @BotFather
-API_TOKEN = 'YOUR_TOKEN'
+API_TOKEN = '5891616232:AAEMHp4_9cz_dRcUPU45TkLwdXbXQsXfy7Y'
 
 
 class WikiBot:
@@ -31,9 +31,18 @@ def wikiparse(page):
 
 
 def getwiki(wiki, text):
-    direct_search = wiki.page(text, auto_suggest=False)
-    msg = wikiparse(direct_search)
-    return msg
+    try:
+        direct_search = wiki.page(text, auto_suggest=False)
+        msg = wikiparse(direct_search)
+        return msg
+    # Handling an exception that the wikipedia module could return
+    except wikipedia.exceptions.PageError:
+        try:
+            suggest_search = wiki.page(text, auto_suggest=True)
+            msg = wikiparse(suggest_search)
+            return msg
+        except wikipedia.exceptions.PageError:
+            return 'Sorry, I can\'t find anything on the subject😔.'
 
 
 if __name__ == "__main__":
