@@ -62,6 +62,26 @@ if __name__ == "__main__":
                          "\n/start - initialize the bot".format(message.from_user, bot.get_me()),
                          parse_mode='html')
 
+    # Handling /ru command
+    @bot.message_handler(commands=['rus'])
+    def change_lang_ru(message):
+        chat_id = message.chat.id  # Getting id of the chat
+        if chat_id not in current_chats.keys():
+            bot.send_message(chat_id, "Please initialize chat with /start")
+        else:
+            current_chats[chat_id].wiki.set_lang("ru")
+            bot.send_message(chat_id, "Changed wikipedia language to Russian")
+
+    # Handling /eng command
+    @bot.message_handler(commands=['eng'])
+    def change_lang_ru(message):
+        chat_id = message.chat.id  # Getting id of the chat
+        if chat_id not in current_chats.keys():
+            bot.send_message(chat_id, "Please use the /start command to begin the chat")
+        else:
+            current_chats[chat_id].wiki.set_lang("en")
+            bot.send_message(chat_id, "Changed wikipedia language to English")
+
     # Handling incoming messages
     @bot.message_handler(content_types=['text'])
     def get_text_messages(message):
