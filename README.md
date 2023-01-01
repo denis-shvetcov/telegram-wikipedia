@@ -1,5 +1,7 @@
 # Telegram Wikipedia Bot
-
+| main                                                                                                                       | develop                                                                                                                          |
+|----------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| ![`main` tests](https://github.com/denis-shvetcov/telegram-wikipedia/actions/workflows/pipeline.yml/badge.svg?branch=main) | ![`develop` tests](https://github.com/denis-shvetcov/telegram-wikipedia/actions/workflows/pipeline.yml/badge.svg?branch=develop) |
 ## Description
 A bot for using wikipedia right in the telegram app
 
@@ -42,12 +44,17 @@ First, build Docker image:
 docker build -t telepediabot .
 ```
 
-Then, run the application:
+Then, run the application, passing your API token:
 
+```
+docker run -e API_TOKEN='YOUR_TOKEN' telepediabot
+```
+For this to work, you have to store your API token as an environment variable.
+
+Alternatively, you can insert your token to `API_TOKEN` variable in `main.py`. Then, run the app:
 ```
 docker run telepediabot
 ```
-
 ### Running without Docker
 
 To begin, clone this repository:

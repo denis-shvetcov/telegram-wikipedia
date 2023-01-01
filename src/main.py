@@ -36,6 +36,22 @@ def getwiki(wiki, text):
         msg = wikiparse(direct_search)
         return msg
     # Handling an exception that the wikipedia module could return
+    except wikipedia.exceptions.DisambiguationError as e:
+        opt = e.options
+        msg = "Sorry, your query is too ambiguous!\n" \
+              "'{0}' may refer to:\n" \
+              "\n<b>{1}</b>\n" \
+              "<b>{2}</b>\n" \
+              "<b>{3}</b>\n" \
+              "<b>{4}</b>\n" \
+              "<b>{5}</b>\n" \
+              "\nTry searching one of the suggestions above.".format(e.title,
+                                                                     opt[0],
+                                                                     opt[1],
+                                                                     opt[2],
+                                                                     opt[3],
+                                                                     opt[4])
+        return msg
     except wikipedia.exceptions.PageError:
         try:
             suggest_search = wiki.page(text, auto_suggest=True)
@@ -113,7 +129,7 @@ if __name__ == "__main__":
             bot.send_message(chat_id, "Please use the /start command to begin the chat")
         else:
             msg = getwiki(current_chats[chat_id].wiki, message.text)
-            bot.send_message(chat_id, msg)
+            bot.send_message(chat_id, msg, parse_mode='html')
 
 
     # Start
